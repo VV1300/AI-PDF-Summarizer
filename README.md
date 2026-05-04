@@ -1,58 +1,47 @@
-# 🤖 AI Resume Screener
+Batch screen multiple PDF resumes against a Job Description using Claude Sonnet 4.5 — and get a clean, visual HTML report with scores, insights, and hiring recommendations.
 
-> Batch screen multiple PDF resumes against a Job Description using **Google Gemini 2.5 Flash**.
-> Outputs: Match Score · Candidate Summary · Verdict · Missing Skills — all in a beautiful HTML report.
-
+✨ Features
+📄 Batch Resume Screening — Process multiple PDFs at once
+🎯 Match Scoring (0–100) — Quickly identify top candidates
+🧠 AI-Powered Insights — Summary, strengths, gaps, missing skills
+📊 Score Breakdown — Skills · Experience · Education · Fit
+🏷 Clear Verdicts — Strong Match → Reject
+🌐 Beautiful HTML Reports — No setup required, open in browser
+⚡ Fast & Automated — From resumes → decision-ready insights
 ---
 
-## 📁 Project Structure
-
-```
 ai_resume_screener/
 │
-├── screener.py           # Main entry point — run this
-├── report_generator.py   # HTML report builder
-├── requirements.txt      # Python dependencies
-├── sample_jd.txt         # Example Job Description
+├── screener.py           # 🚀 Main entry point
+├── report_generator.py   # 📊 HTML report builder
+├── requirements.txt      # 📦 Dependencies
+├── sample_jd.txt         # 📝 Sample Job Description
 │
-├── resumes/              # 📂 Drop your PDF resumes here
-│   └── candidate1.pdf
+├── resumes/              # 📂 Drop resumes here
+│   ├── candidate1.pdf
 │   └── candidate2.pdf
 │
-└── reports/              # 📂 HTML reports are saved here (auto-created)
-    └── screening_report_20250101_120000.html
-```
-
+└── reports/              # 📂 Generated reports
+    └── screening_report_YYYYMMDD_HHMMSS.html
 ---
 
 ## ⚙️ Setup
+**1. Clone the repo**
+git clone https://github.com/your-username/ai-resume-screener.git
+cd ai-resume-screener
 
-### 1. Install Dependencies
-
-```bash
+**2. Install dependencies**
 pip install -r requirements.txt
-```
 
-### 2. Get a Gemini API Key
+**3. Set your API key**
+macOS / Linux
+export ANTRHOPIC_KEY="your-api-key"
 
-1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
-2. Create a free API key
-3. Set it as an environment variable:
+Windows (CMD)
+set ANTRHOPIC_KEY=your-api-key
 
-```bash
-# macOS / Linux
-export GEMINI_API_KEY="your-api-key-here"
-
-# Windows (Command Prompt)
-set GEMINI_API_KEY=your-api-key-here
-
-# Windows (PowerShell)
-$env:GEMINI_API_KEY="your-api-key-here"
-```
-
-Or pass it directly via `--api-key` flag (see below).
-
----
+Windows (PowerShell)
+$env:ANTRHOPIC_KEY="your-api-key"
 
 ## 🚀 Usage
 
@@ -61,49 +50,18 @@ Or pass it directly via `--api-key` flag (see below).
 ```bash
 python screener.py --jd sample_jd.txt
 ```
-
-This will:
-- Read all `.pdf` files from the `resumes/` folder
-- Screen each resume against `sample_jd.txt`
-- Save an HTML report to the `reports/` folder
-
----
-
-### Full Command Options
-
-```bash
-python screener.py \
-  --resumes  ./resumes      \   # Folder with PDF resumes (default: ./resumes)
-  --jd       ./sample_jd.txt\   # Path to JD text file (required)
-  --output   ./reports      \   # Output folder for HTML report (default: ./reports)
-  --api-key  YOUR_KEY           # Gemini API key (or use env var)
-```
-
-### Example with Custom Paths
-
-```bash
-python screener.py \
-  --resumes ./candidates \
-  --jd ./jobs/swe_senior.txt \
-  --output ./screening_results \
-  --api-key AIza...
-```
-
----
-
 ## 📊 Output
-
 ### Terminal (live progress)
 
 ```
 ============================================================
-  AI Resume Screener — Gemini 2.5 Flash
+  AI Resume Screener — Claude Sonnet 4.5
 ============================================================
   Found 3 resume(s) to screen.
 
 [1/3] Screening: john_doe.pdf
   ✓ Extracted 3241 characters from resume
-  ⏳ Sending to Gemini for analysis...
+  ⏳ Sending to CLAUDE for analysis...
   ✅ John Doe | Score: 87/100 | Verdict: Strong Match
 
 ...
@@ -138,7 +96,7 @@ Each report includes:
 PDF Resumes  ──►  pdfplumber (text extraction)
                        │
                        ▼
-              Gemini 2.5 Flash (AI analysis)
+              Claude Sonnet (AI analysis)
               ┌─────────────────────────────┐
               │  Resume + JD → structured   │
               │  JSON with score, verdict,  │
@@ -173,11 +131,8 @@ PDF Resumes  ──►  pdfplumber (text extraction)
 
 In `screener.py`, update:
 ```python
-MODEL_NAME = "gemini-2.5-flash-preview-04-17"
+MODEL_NAME = "claude-sonnet-4.5"
 ```
-
-Available Gemini models: `gemini-2.5-pro`, `gemini-1.5-flash`, etc.
-
 ### Adjust the Screening Prompt
 
 Edit `SCREENING_PROMPT` in `screener.py` to customize what the AI looks for, scoring criteria, output fields, etc.
@@ -187,7 +142,6 @@ Edit `SCREENING_PROMPT` in `screener.py` to customize what the AI looks for, sco
 ## ⚠️ Notes
 
 - **Scanned PDFs** (image-only) may produce empty text extraction. Use text-based PDFs for best results.
-- **Gemini API rate limits** apply — for large batches (50+ resumes), add a `time.sleep(1)` between calls.
 - Reports are self-contained HTML files — no server needed, just open in any browser.
 
 ---
@@ -201,5 +155,3 @@ Edit `SCREENING_PROMPT` in `screener.py` to customize what the AI looks for, sco
 | `jinja2` | (Available for future template use) |
 
 ---
-
-*Built with ❤️ using Gemini 2.5 Flash*
